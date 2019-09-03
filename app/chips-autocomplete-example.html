@@ -1,0 +1,41 @@
+
+<mat-form-field class="multi-select-combo-box-example-form">
+  <mat-chip-list #chipList>
+    <mat-chip
+      *ngFor="let fruit of fruits"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(fruit)">
+      {{fruit}}
+      <mat-icon  matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input
+      placeholder="Fruits"
+      #fruitInput
+      [formControl]="fruitCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      [matChipInputAddOnBlur]="addOnBlur"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+  <mat-autocomplete   #auto="matAutocomplete" (optionSelected)="onFruitSelectionChange($event)">
+    <mat-option  [id]="'multi-select-mat-option-'+ fruit.toLowerCase()" *ngFor="let fruit of filteredFruits | async"  [value]="fruit">
+      <mat-pseudo-checkbox class="multi-select-pseudo-checkbox"
+              [state]="isFruitSelected(fruit) ? 'checked' : 'unchecked'">
+       </mat-pseudo-checkbox>
+       <span class="multi-select-option-text">{{fruit}}</span>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+<mat-toolbar>
+  <span><strong>Selected Fruits ::</strong> {{fruits | json }}</span>
+</mat-toolbar>
+
+
+
+
+
+<!-- Copyright 2018 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->
